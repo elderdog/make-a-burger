@@ -1,20 +1,26 @@
 {
   "name": "make-a-burger",
-  "private": true,
-  "version": "0.0.0",
   "type": "module",
+  "version": "0.0.0",
+  "private": true,
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc && vite build",
+    "lint": "eslint .",
     "preview": "vite preview"
   },
   "dependencies": {
     "vue": "^3.2.47"
   },
   "devDependencies": {
+    "@antfu/eslint-config": "^0.38.6",
     "@vitejs/plugin-vue": "^4.1.0",
+    "eslint": "^8.40.0",
     "typescript": "^5.0.2",
     "vite": "^4.3.2",
     "vue-tsc": "^1.4.2"
+  },
+  "eslintConfig": {
+    "extends": "@antfu"
   }
 }
