@@ -14,6 +14,10 @@ export default class MealToTakeOutAdapter implements ITakeOutMeal {
     this.deliveryFee = deliveryFee
   }
 
+  public getId(): string {
+    return this.meal.getId()
+  }
+
   public getName(): string {
     return `Take out: ${this.meal.getName()}`
   }

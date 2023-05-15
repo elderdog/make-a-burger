@@ -12,6 +12,10 @@ export default class MealToDineInAdapter implements IDineInMeal {
     this.meal = meal
   }
 
+  public getId(): string {
+    return this.meal.getId()
+  }
+
   public getName(): string {
     return `Dine in: ${this.meal.getName()}`
   }

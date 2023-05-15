@@ -1,6 +1,8 @@
+import { v4 as uuid } from 'uuid'
 import type Ingredient from '../ingredients/Ingredient'
 
 export interface IBurger {
+  getId(): string
   getName(): string
   getIngredients(): Ingredient[]
   getPrice(): number
@@ -12,10 +14,15 @@ export default abstract class Burger implements IBurger {
   protected name: string
   protected ingredients: Ingredient[]
   protected price = 3
+  protected id = uuid()
 
   constructor(name: string, ingredients: Ingredient[]) {
     this.name = name
     this.ingredients = ingredients
+  }
+
+  public getId(): string {
+    return this.id
   }
 
   public getName(): string {
