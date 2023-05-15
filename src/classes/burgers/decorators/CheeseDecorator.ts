@@ -2,7 +2,7 @@ import Beef from '../../ingredients/Beef'
 import { type IBurger } from '../Burger'
 import IngredientDecorator from './IngredientDecorator'
 
-export default abstract class CheeseDecorator extends IngredientDecorator {
+export default class CheeseDecorator extends IngredientDecorator {
   constructor(burger: IBurger) {
     super(burger)
     this.addIngredients([new Beef()])
