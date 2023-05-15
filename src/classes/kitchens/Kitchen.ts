@@ -11,7 +11,7 @@ export default class Kitchen {
     this.commands.push(command)
   }
 
-  public execute(): void {
+  public cook(): void {
     this.commands.reduce<void>((_, command) => command.execute(), undefined)
     this.commands = []
   }
