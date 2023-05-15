@@ -8,6 +8,14 @@ export default abstract class IngredientDecorator implements IBurger {
     this.burger = burger
   }
 
+  public getId(): string {
+    return this.burger.getId()
+  }
+
+  public cook(): Promise<void> {
+    return this.burger.cook()
+  }
+
   public getName(): string {
     return this.burger.getName()
   }
