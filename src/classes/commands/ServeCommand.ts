@@ -1,15 +1,16 @@
-import { type IBurger } from '../burgers/Burger'
+import { type IMeal } from '../meals/Meal'
+import EventBus, { EventType } from '../common/EventBus'
 import Command from './Command'
 
 export default class ServeCommand extends Command {
-  private burger: IBurger
+  private meal: IMeal
 
-  constructor(burger: IBurger) {
+  constructor(meal: IMeal) {
     super()
-    this.burger = burger
+    this.meal = meal
   }
 
   public execute(): void {
-    console.log(this.burger, 'is served!')
+    EventBus.emit(EventType.MEAL_READY, this.meal)
   }
 }

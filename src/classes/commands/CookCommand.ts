@@ -1,4 +1,5 @@
 import { type IBurger } from '../burgers/Burger'
+import EventBus, { EventType } from '../common/EventBus'
 import Command from './Command'
 
 export default class CookCommand extends Command {
@@ -10,6 +11,9 @@ export default class CookCommand extends Command {
   }
 
   public execute(): void {
-    console.log(this.burger, 'is cooked!')
+    EventBus.emit(EventType.BURGER_COOKING, this.burger)
+    this.burger.cook().then(() => {
+      EventBus.emit(EventType.BURGER_COOKED, this.burger)
+    })
   }
 }

@@ -5,6 +5,7 @@ export interface IBurger {
   getIngredients(): Ingredient[]
   getPrice(): number
   addIngredients(ingredients: Ingredient[]): void
+  cook(): Promise<void>
 }
 
 export default abstract class Burger implements IBurger {
@@ -32,5 +33,13 @@ export default abstract class Burger implements IBurger {
 
   public addIngredients(ingredients: Ingredient[]): void {
     this.ingredients.push(...ingredients)
+  }
+
+  public cook(): Promise<void> {
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve()
+      }, 3000)
+    })
   }
 }

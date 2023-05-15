@@ -2,13 +2,19 @@ import type { IBurger } from '../burgers/Burger'
 import type { IMeal } from '../meals/Meal'
 import TypedEmitter from './TypedEmitter'
 
+export enum EventType {
+  BURGER_COOKING = 'burger-cooking',
+  BURGER_COOKED = 'burger-cooked',
+  MEAL_READY = 'meal-ready'
+}
+
 interface BurgerEvents {
-  'burger-cooking': IBurger
-  'burger-cooked': IBurger
+  [EventType.BURGER_COOKING]: IBurger
+  [EventType.BURGER_COOKED]: IBurger
 }
 
 interface MealEvents {
-  'meal-ready': IMeal
+  [EventType.MEAL_READY]: IMeal
 }
 
 class EventBus extends TypedEmitter<BurgerEvents & MealEvents> {
