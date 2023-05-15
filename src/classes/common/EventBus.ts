@@ -5,7 +5,8 @@ import TypedEmitter from './TypedEmitter'
 export enum EventType {
   BURGER_COOKING = 'burger-cooking',
   BURGER_COOKED = 'burger-cooked',
-  MEAL_READY = 'meal-ready'
+  MEAL_READY = 'meal-ready',
+  DISPLAY_UPDATE = 'display-update'
 }
 
 interface BurgerEvents {
@@ -17,7 +18,13 @@ interface MealEvents {
   [EventType.MEAL_READY]: IMeal
 }
 
-class EventBus extends TypedEmitter<BurgerEvents & MealEvents> {
+interface DisplayEvents {
+  [EventType.DISPLAY_UPDATE]: IMeal
+}
+
+type Events = BurgerEvents & MealEvents & DisplayEvents
+
+class EventBus extends TypedEmitter<Events> {
   private static instance: EventBus
 
   private constructor() {
