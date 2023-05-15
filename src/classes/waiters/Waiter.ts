@@ -10,12 +10,25 @@ import Meal, { type IMeal } from '../meals/Meal'
 import MealToDineInAdapter from '../meals/adapters/MealToDineInAdapter'
 import MealToTakeOutAdapter from '../meals/adapters/MealToTakeOutAdapter'
 import type { IBurger } from '../burgers/Burger'
+import BeefDecorator from '../burgers/decorators/BeefDecorator'
+import CheeseDecorator from '../burgers/decorators/CheeseDecorator'
+import LettuceDecorator from '../burgers/decorators/LettuceDecorator'
+import TomatoDecorator from '../burgers/decorators/TomatoDecorator'
 
 enum BurgerType {
   BEEF = 'Beef Burger',
   CHEESE = 'Cheese Burger',
   VEGGIE = 'Veggie Burger'
 }
+
+const IngredientDecoratorMap = {
+  beef: BeefDecorator,
+  cheese: CheeseDecorator,
+  lettuce: LettuceDecorator,
+  tomato: TomatoDecorator
+}
+
+type IngredientType = keyof typeof IngredientDecoratorMap
 
 export default class Waiter {
   public isOnDuty: boolean
@@ -42,12 +55,18 @@ export default class Waiter {
     // TODO: release object reference
   }
 
-  public takeOrder(burgerType: BurgerType, dineIn: boolean): void {
+  public takeOrder(burgerType: BurgerType, dineIn: boolean, extras: IngredientType[]): void {
     const burger = BurgerFactory.createBurger(burgerType)
-    this.orders.push({ meal: new Meal(burger), dineIn })
-    const cookCommand = new CookCommand(burger)
+    const decoratedBurger = extras.reduce<IBurger>((burger, extra) => this.decorateBurger(burger, extra), burger)
+    this.orders.push({ meal: new Meal(decoratedBurger), dineIn })
+    const cookCommand = new CookCommand(decoratedBurger)
     this.kitchen.addCommand(cookCommand)
     this.kitchen.cook()
+  }
+
+  private decorateBurger(burger: IBurger, extra: IngredientType): IBurger {
+    const Decorator = IngredientDecoratorMap[extra]
+    return new Decorator(burger)
   }
 
   public serve(burger: IBurger): void | IMeal {
