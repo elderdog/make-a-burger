@@ -9,6 +9,6 @@ export default abstract class BeefDecorator extends IngredientDecorator {
   }
 
   public getName(): string {
-    return `${this.burger.getName()}, with extra beef`
+    return `${super.getName()}, with extra beef`
   }
 }

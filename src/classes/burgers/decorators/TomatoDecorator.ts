@@ -9,6 +9,6 @@ export default abstract class TomatoDecorator extends IngredientDecorator {
   }
 
   public getName(): string {
-    return `${this.burger.getName()}, with extra tomato`
+    return `${super.getName()}, with extra tomato`
   }
 }
