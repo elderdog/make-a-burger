@@ -1,5 +1,4 @@
 import type { IBurger } from '../burgers/Burger'
-import type { IMeal } from '../meals/Meal'
 import TypedEmitter from './TypedEmitter'
 
 export enum EventType {
@@ -14,15 +13,11 @@ interface BurgerEvents {
   [EventType.BURGER_COOKED]: IBurger
 }
 
-interface MealEvents {
-  [EventType.MEAL_READY]: IMeal
-}
-
 interface DisplayEvents {
-  [EventType.DISPLAY_UPDATE]: IMeal
+  [EventType.DISPLAY_UPDATE]: IBurger
 }
 
-type Events = BurgerEvents & MealEvents & DisplayEvents
+type Events = BurgerEvents & DisplayEvents
 
 class EventBus extends TypedEmitter<Events> {
   private static instance: EventBus
