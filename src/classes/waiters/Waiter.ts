@@ -47,7 +47,6 @@ export default class Waiter {
 
   public onDuty(): void {
     this.isOnDuty = true
-    console.log('Waiter is on duty')
   }
 
   public offDuty(): void {
@@ -70,8 +69,11 @@ export default class Waiter {
   }
 
   public serve(burger: IBurger): void | IMeal {
-    const order = this.orders.find(order => order.meal.getId() === burger.getId())
-    if (!order) return
+    const idx = this.orders.findIndex(order => order.meal.getId() === burger.getId())
+    if (idx === -1) return
+    const order = this.orders[idx]
+    // meal is served, remove it from the list
+    this.orders.splice(idx, 1)
     if (order.dineIn) {
       return new MealToDineInAdapter(order.meal)
     } else {
