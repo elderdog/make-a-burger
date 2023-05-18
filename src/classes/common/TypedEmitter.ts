@@ -1,4 +1,4 @@
-import { EventEmitter } from 'node:events'
+import EventEmitter from 'eventemitter3'
 
 export type EventMap = Record<string, any>
 export type EventKey<T extends EventMap> = string & keyof T
