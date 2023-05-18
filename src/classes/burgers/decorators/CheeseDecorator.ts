@@ -1,11 +1,11 @@
-import Beef from '../../ingredients/Beef'
+import Cheese from '../../ingredients/Cheese'
 import { type IBurger } from '../Burger'
 import IngredientDecorator from './IngredientDecorator'
 
 export default class CheeseDecorator extends IngredientDecorator {
   constructor(burger: IBurger) {
     super(burger)
-    this.addIngredients([new Beef()])
+    this.addIngredients([new Cheese()])
   }
 
   public getName(): string {
