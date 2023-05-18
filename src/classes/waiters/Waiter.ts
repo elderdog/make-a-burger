@@ -6,6 +6,7 @@ import CheeseBurger from '../burgers/CheeseBurger'
 import VeggieBurger from '../burgers/VeggieBurger'
 import CookCommand from '../commands/CookCommand'
 import EventBus, { EventType } from '../common/EventBus'
+import TypedEmitter from '../common/TypedEmitter'
 import Meal, { type IMeal } from '../meals/Meal'
 import MealToDineInAdapter from '../meals/adapters/MealToDineInAdapter'
 import MealToTakeOutAdapter from '../meals/adapters/MealToTakeOutAdapter'
@@ -15,10 +16,14 @@ import CheeseDecorator from '../burgers/decorators/CheeseDecorator'
 import LettuceDecorator from '../burgers/decorators/LettuceDecorator'
 import TomatoDecorator from '../burgers/decorators/TomatoDecorator'
 
-enum BurgerType {
+export enum BurgerType {
   BEEF = 'Beef Burger',
   CHEESE = 'Cheese Burger',
   VEGGIE = 'Veggie Burger'
+}
+
+interface MealEvents {
+  'meal-ready': IMeal
 }
 
 const IngredientDecoratorMap = {
@@ -30,12 +35,13 @@ const IngredientDecoratorMap = {
 
 type IngredientType = keyof typeof IngredientDecoratorMap
 
-export default class Waiter {
+export default class Waiter extends TypedEmitter<MealEvents> {
   public isOnDuty: boolean
   public kitchen: Kitchen
   public orders: { meal: Meal; dineIn: boolean }[]
 
   constructor() {
+    super()
     this.isOnDuty = false
     this.kitchen = new Kitchen()
     this.orders = []
@@ -70,18 +76,20 @@ export default class Waiter {
     return new Decorator(burger)
   }
 
-  public serve = (burger: IBurger): void | IMeal => {
+  public serve = (burger: IBurger): void => {
     this.checkStatus()
     const idx = this.orders.findIndex(order => order.meal.getId() === burger.getId())
     if (idx === -1) return
     const order = this.orders[idx]
     // meal is served, remove it from the list
     this.orders.splice(idx, 1)
+    let meal: IMeal
     if (order.dineIn) {
-      return new MealToDineInAdapter(order.meal)
+      meal = new MealToDineInAdapter(order.meal)
     } else {
-      return new MealToTakeOutAdapter(order.meal, 3)
+      meal = new MealToTakeOutAdapter(order.meal, 3)
     }
+    this.emit('meal-ready', meal)
   }
 
   protected checkStatus(): void {

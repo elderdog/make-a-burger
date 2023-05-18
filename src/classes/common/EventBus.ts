@@ -4,7 +4,6 @@ import TypedEmitter from './TypedEmitter'
 export enum EventType {
   BURGER_COOKING = 'burger-cooking',
   BURGER_COOKED = 'burger-cooked',
-  MEAL_READY = 'meal-ready',
   DISPLAY_UPDATE = 'display-update'
 }
 
