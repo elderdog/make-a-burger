@@ -1,5 +1,6 @@
 import type Ingredient from '../../ingredients/Ingredient'
 import { type IBurger } from '../Burger'
+import logger from '../../utils/logger'
 
 export default abstract class IngredientDecorator implements IBurger {
   protected burger: IBurger
@@ -29,6 +30,7 @@ export default abstract class IngredientDecorator implements IBurger {
   }
 
   public addIngredients(ingredients: Ingredient[]): void {
+    logger.info(`[IngredientDecorator]: add extra ${ingredients.map(ingredient => ingredient.getName()).join()}`)
     this.burger.addIngredients(ingredients)
   }
 }

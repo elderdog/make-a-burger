@@ -15,6 +15,7 @@ import BeefDecorator from '../burgers/decorators/BeefDecorator'
 import CheeseDecorator from '../burgers/decorators/CheeseDecorator'
 import LettuceDecorator from '../burgers/decorators/LettuceDecorator'
 import TomatoDecorator from '../burgers/decorators/TomatoDecorator'
+import logger from '../utils/logger'
 
 export enum BurgerType {
   BEEF = 'Beef Burger',
@@ -48,20 +49,32 @@ export default class Waiter extends TypedEmitter<MealEvents> {
     BurgerRegistry.register(BurgerType.BEEF, BeefBurger)
     BurgerRegistry.register(BurgerType.CHEESE, CheeseBurger)
     BurgerRegistry.register(BurgerType.VEGGIE, VeggieBurger)
+    logger.info('[Waiter]: created')
   }
 
   public onDuty(): void {
+    if (this.isOnDuty) {
+      logger.info('[Waiter]: is already on duty')
+      return
+    }
+    logger.info('[Waiter]: is on duty')
     this.isOnDuty = true
     EventBus.on(EventType.DISPLAY_UPDATE, this.serve)
   }
 
   public offDuty(): void {
+    if (!this.isOnDuty) {
+      logger.info('[Waiter]: is already off duty')
+      return
+    }
+    logger.info('[Waiter]: is off duty')
     this.isOnDuty = false
     this.orders = []
     EventBus.off(EventType.DISPLAY_UPDATE, this.serve)
   }
 
   public takeOrder(burgerType: BurgerType, dineIn: boolean, extras: IngredientType[]): void {
+    logger.info('[Waiter]: take order')
     this.checkStatus()
     const burger = BurgerFactory.createBurger(burgerType)
     const decoratedBurger = extras.reduce<IBurger>((burger, extra) => this.decorateBurger(burger, extra), burger)
@@ -77,6 +90,7 @@ export default class Waiter extends TypedEmitter<MealEvents> {
   }
 
   public serve = (burger: IBurger): void => {
+    logger.info('[Waiter]: serve order')
     this.checkStatus()
     const idx = this.orders.findIndex(order => order.meal.getId() === burger.getId())
     if (idx === -1) return

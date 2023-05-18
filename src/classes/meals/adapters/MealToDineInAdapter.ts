@@ -1,5 +1,6 @@
 import type { IMeal } from '../Meal'
 import type Meal from '../Meal'
+import logger from '../../utils/logger'
 
 export interface IDineInMeal extends IMeal {
   getTableware(): string
@@ -10,6 +11,7 @@ export default class MealToDineInAdapter implements IDineInMeal {
 
   constructor(meal: Meal) {
     this.meal = meal
+    logger.info('[MealToDineInAdapter]: created, prepare tableware')
   }
 
   public getId(): string {

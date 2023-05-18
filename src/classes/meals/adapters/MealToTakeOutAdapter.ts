@@ -1,5 +1,6 @@
 import type { IMeal } from '../Meal'
 import type Meal from '../Meal'
+import logger from '../../utils/logger'
 
 export interface ITakeOutMeal extends IMeal {
   getWrapping(): string
@@ -12,6 +13,7 @@ export default class MealToTakeOutAdapter implements ITakeOutMeal {
   constructor(meal: Meal, deliveryFee: number) {
     this.meal = meal
     this.deliveryFee = deliveryFee
+    logger.info('[MealToTakeOutAdapter]: created, prepare to deliver')
   }
 
   public getId(): string {

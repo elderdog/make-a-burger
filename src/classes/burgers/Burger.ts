@@ -1,5 +1,6 @@
 import { v4 as uuid } from 'uuid'
 import type Ingredient from '../ingredients/Ingredient'
+import logger from '../utils/logger'
 
 export interface IBurger {
   getId(): string
@@ -19,6 +20,7 @@ export default abstract class Burger implements IBurger {
   constructor(name: string, ingredients: Ingredient[]) {
     this.name = name
     this.ingredients = ingredients
+    logger.info('[Burger]: created')
   }
 
   public getId(): string {
@@ -43,8 +45,10 @@ export default abstract class Burger implements IBurger {
   }
 
   public cook(): Promise<void> {
+    logger.info('[Burger]: cooking...')
     return new Promise(resolve => {
       setTimeout(() => {
+        logger.info('[Burger]: is cooked')
         resolve()
       }, 3000)
     })
