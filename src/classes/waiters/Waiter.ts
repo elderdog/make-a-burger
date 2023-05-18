@@ -42,16 +42,17 @@ export default class Waiter {
     BurgerRegistry.register(BurgerType.BEEF, BeefBurger)
     BurgerRegistry.register(BurgerType.CHEESE, CheeseBurger)
     BurgerRegistry.register(BurgerType.VEGGIE, VeggieBurger)
-    EventBus.on(EventType.DISPLAY_UPDATE, burger => this.serve(burger))
   }
 
   public onDuty(): void {
     this.isOnDuty = true
+    EventBus.on(EventType.DISPLAY_UPDATE, this.serve)
   }
 
   public offDuty(): void {
     this.isOnDuty = false
-    // TODO: release object reference
+    this.orders = []
+    EventBus.off(EventType.DISPLAY_UPDATE, this.serve)
   }
 
   public takeOrder(burgerType: BurgerType, dineIn: boolean, extras: IngredientType[]): void {
@@ -68,7 +69,7 @@ export default class Waiter {
     return new Decorator(burger)
   }
 
-  public serve(burger: IBurger): void | IMeal {
+  public serve = (burger: IBurger): void | IMeal => {
     const idx = this.orders.findIndex(order => order.meal.getId() === burger.getId())
     if (idx === -1) return
     const order = this.orders[idx]

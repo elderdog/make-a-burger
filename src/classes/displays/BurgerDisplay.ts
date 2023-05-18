@@ -6,10 +6,18 @@ export default class BurgerDisplay {
 
   constructor() {
     this.burgers = []
-    EventBus.on(EventType.BURGER_COOKED, burger => this.add(burger))
   }
 
-  public add(burger: IBurger): void {
+  public turnOn(): void {
+    EventBus.on(EventType.BURGER_COOKED, this.add)
+  }
+
+  public turnOff(): void {
+    EventBus.off(EventType.BURGER_COOKED, this.add)
+    this.burgers = []
+  }
+
+  public add = (burger: IBurger): void => {
     this.burgers.push(burger)
     EventBus.emit(EventType.DISPLAY_UPDATE, burger)
   }
