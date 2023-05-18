@@ -9,6 +9,6 @@ export default class CheeseDecorator extends IngredientDecorator {
   }
 
   public getName(): string {
-    return `${super.getName()}, with extra beef`
+    return `${super.getName()}, with extra cheese`
   }
 }
