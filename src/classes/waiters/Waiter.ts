@@ -56,6 +56,7 @@ export default class Waiter {
   }
 
   public takeOrder(burgerType: BurgerType, dineIn: boolean, extras: IngredientType[]): void {
+    this.checkStatus()
     const burger = BurgerFactory.createBurger(burgerType)
     const decoratedBurger = extras.reduce<IBurger>((burger, extra) => this.decorateBurger(burger, extra), burger)
     this.orders.push({ meal: new Meal(decoratedBurger), dineIn })
@@ -70,6 +71,7 @@ export default class Waiter {
   }
 
   public serve = (burger: IBurger): void | IMeal => {
+    this.checkStatus()
     const idx = this.orders.findIndex(order => order.meal.getId() === burger.getId())
     if (idx === -1) return
     const order = this.orders[idx]
@@ -80,5 +82,9 @@ export default class Waiter {
     } else {
       return new MealToTakeOutAdapter(order.meal, 3)
     }
+  }
+
+  protected checkStatus(): void {
+    if (!this.isOnDuty) throw new Error('Not on duty')
   }
 }
