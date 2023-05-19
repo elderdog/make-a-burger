@@ -17,6 +17,13 @@ import LettuceDecorator from '../burgers/decorators/LettuceDecorator'
 import TomatoDecorator from '../burgers/decorators/TomatoDecorator'
 import logger from '../utils/logger'
 
+/**
+ * TODO:
+ * extract burger type related code to another file
+ * for decoupling purpose, waiter class file does not need to know burger type detail
+ * while more burger types being added, waiter class file should not be bothered
+ */
+
 export enum BurgerType {
   BEEF = 'Beef Burger',
   CHEESE = 'Cheese Burger',
