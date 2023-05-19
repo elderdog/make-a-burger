@@ -12,7 +12,7 @@ function start() {
   burgerDisplay.onDuty()
   const waiter = new Waiter()
   waiter.onDuty()
-  waiter.takeOrder(BurgerType.BEEF, true, ['cheese'])
+  waiter.takeOrder(BurgerType.BEEF, true, ['cheese', 'tomato'])
   waiter.on('meal-ready', meal => {
     logger.info(`[Client]: get ready to eat ${meal.getName()}`)
     burgerDisplay.offDuty()

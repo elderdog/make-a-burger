@@ -85,6 +85,7 @@ export default class Waiter extends TypedEmitter<MealEvents> {
   }
 
   private decorateBurger(burger: IBurger, extra: IngredientType): IBurger {
+    logger.info(`[Waiter]: add extra ${extra}`)
     const Decorator = IngredientDecoratorMap[extra]
     return new Decorator(burger)
   }

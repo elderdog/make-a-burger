@@ -5,7 +5,7 @@ import IngredientDecorator from './IngredientDecorator'
 export default class BeefDecorator extends IngredientDecorator {
   constructor(burger: IBurger) {
     super(burger)
-    this.addIngredients([new Beef()])
+    super.addIngredients([new Beef()])
   }
 
   public getName(): string {

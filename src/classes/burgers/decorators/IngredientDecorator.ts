@@ -30,7 +30,11 @@ export default abstract class IngredientDecorator implements IBurger {
   }
 
   public addIngredients(ingredients: Ingredient[]): void {
+    let burger = this.burger
+    while (burger instanceof IngredientDecorator) {
+      burger = burger.burger
+    }
     logger.info(`[IngredientDecorator]: add extra ${ingredients.map(ingredient => ingredient.getName()).join()}`)
-    this.burger.addIngredients(ingredients)
+    burger.addIngredients(ingredients)
   }
 }
